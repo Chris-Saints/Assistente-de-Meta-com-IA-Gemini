@@ -1,6 +1,8 @@
-export default async function handler(req, res) {
-    const { question, game } = req.body;
+import { VercelRequest, VercelResponse } from './../node_modules/@vercel/node/dist/index.d';
 
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    const { question, game } = req.body;
+    console.log("API KEY EXISTS?", !!process.env.GEMINI_API_KEY);
     const model = "gemini-2.5-flash"
     
     const perguntaLOL = `

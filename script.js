@@ -11,23 +11,8 @@ const markDownToHTML = (text) => {
 }
 
 
-//AIzaSyDpfj0NLqiQKDSgZpwzH99HWPnxUp3GvNo
 const perguntarAI = async (question, game, apiKey) => {
 
-    
-
-
-    // const contents = [{
-    //     parts: [{
-    //         text: pergunta
-    //     }]
-    // }]
-
-    //  const tools = [{
-    //      google_search: {}
-    //  }]
-
-    // Chamada API
 
     const response = await fetch("/api/ai", {
         method: 'POST',

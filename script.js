@@ -1,4 +1,3 @@
-const apiKeyInput = document.getElementById('apiKey');
 const gameSelect = document.getElementById('gameSelect');
 const questionInput = document.getElementById('questionInput');
 const askButton = document.getElementById('askButton');
@@ -11,7 +10,7 @@ const markDownToHTML = (text) => {
 }
 
 
-const perguntarAI = async (question, game, apiKey) => {
+const perguntarAI = async (question, game) => {
 
 
     const response = await fetch("/api/ai", {
@@ -29,8 +28,6 @@ const perguntarAI = async (question, game, apiKey) => {
     
     return data.text
 }
-
-
 
 
 form.addEventListener('submit', async (event) => {

@@ -29,7 +29,7 @@ const perguntarAI = async (question, game, apiKey) => {
 
     // Chamada API
 
-    const response = await fetch("/api/ask-ai", {
+    const response = await fetch("/api/ai", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

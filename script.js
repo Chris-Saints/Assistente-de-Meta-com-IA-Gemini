@@ -23,9 +23,14 @@ const perguntarAI = async (question, game) => {
             
         })
     })
+    
+    if (!response.ok) {
+        const errorText = await response.text()
+        console.log("Erro da API:", errorText)
+        throw new Error("Erro na API")
+    }
 
     const data = await response.json()
-    
     return data.text
 }
 

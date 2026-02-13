@@ -8,8 +8,10 @@ export default async function handler(req, res) {
 
     const { question, game } = req.body;
     console.log("API KEY EXISTS?", !!process.env.GEMINI_API_KEY);
-    const model = "gemini-2.5-flash"
+    const model = "gemini-2.5-flash" //Modelo da IA usada
     
+
+    //Os parametros criados para orientar a IA de como ela deve responder as dúvidas enviadas. Cada uma focada no jogo especifico
     const perguntaLOL = `
         ## Especialidade
         Você é um especialista assistente de meta para o jogo ${game}
@@ -110,7 +112,10 @@ export default async function handler(req, res) {
         Aqui está a pergunta do usuário: ${question}
 
     `
+
     let pergunta = '';
+
+    //Aqui são comparações para escolher os parametros certos dependendo do jogo escolhido
 
     if(game === 'Valorant') {
         pergunta = perguntaValorant
@@ -123,24 +128,27 @@ export default async function handler(req, res) {
     }
 
     try {
+        //Verificação da key
         if (!process.env.GEMINI_API_KEY) {
             return res.status(500).json({ error: "API KEY não encontrada" });
         }
 
-        const response = await fetch(
+        const response = await fetch(e
             `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
+
             {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
+                method: "POST", //Enviando dados
+                headers: { "Content-Type": "application/json" }, //Informa a API como interpretar os dados
                 body: JSON.stringify({
                     contents: [{ parts: [{ text: pergunta }] }],
                 }),
             }
         );
 
-        const data = await response.json();
+        const data = await response.json(); //Convertendo o fetch em json 
 
         if (!response.ok) {
+            //Para segurança caso a requisição não de certo
             console.error("Erro da Gemini:", data);
             return res.status(500).json({
                 error: "Erro na Gemini",
@@ -151,6 +159,7 @@ export default async function handler(req, res) {
         const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (!text) {
+            //Novamente se der erro no formato do dado
             console.error("Resposta inesperada:", data);
             return res.status(500).json({
                 error: "Formato inesperado da resposta",
@@ -158,9 +167,11 @@ export default async function handler(req, res) {
             });
         }
 
+        //Retorna a informação
         return res.status(200).json({ text });
 
     } catch (error) {
+        //Caso de Erro
         console.error("Erro interno:", error);
         return res.status(500).json({ error: "Erro interno do servidor" });
     }
